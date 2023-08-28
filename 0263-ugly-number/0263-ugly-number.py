@@ -8,4 +8,6 @@ class Solution:
             n = n/3
         while (n%5 == 0):
             n = n/5
-        return n == 1
+        if (n == 1):
+            return True
+        return False

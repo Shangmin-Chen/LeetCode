@@ -1,15 +1,11 @@
-
 class Solution:
     def numIdenticalPairs(self, nums: List[int]) -> int:
-
-        diktator = {}
-        ans = 0
-
-        for i, num in enumerate(nums):
-            if num not in diktator:
-                diktator[num] = 0
-            else:
-                diktator[num] += 1
-                ans += diktator[num]
-
-        return ans
+        from collections import defaultdict
+        d = defaultdict(int)
+        t = 0
+        for i in nums:
+            d[i] += 1
+            t += d[i]-1
+        return t
+        
+        

@@ -1,7 +1,16 @@
 class Solution:
     def numIdenticalPairs(self, nums: List[int]) -> int:
-        o = 0
-        for i in range(len(nums)):
-            o += nums[i+1:].count(nums[i])
-        return o
-                
+        from collections import defaultdict
+        from math import comb
+        d = defaultdict(int)
+        t = 0
+        for i in nums:
+            d[i] += 1
+        for i in d:
+            if d[i] > 2:
+                t += comb(d[i],2)
+            elif d[i] == 2:
+                t += 1
+        return t
+        
+        

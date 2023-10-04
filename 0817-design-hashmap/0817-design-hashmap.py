@@ -1,38 +1,30 @@
-class ListNode:
-    def __init__(self, key=-1, val=-1,next=None):
-        self.key = key
-        self.val = val
-        self.next = next
-
 class MyHashMap:
 
     def __init__(self):
-        self.map = [ListNode() for i in range(1000)]
-
-    def hash(self, key):
-        return key % len(self.map)
-
+        self.size = 1000
+        self.buckets = [None] * self.size
     def put(self, key: int, value: int) -> None:
-        cur = self.map[self.hash(key)]
-        while cur.next:
-            if cur.next.key == key:
-                cur.next.val = value
+        index = key % self.size
+        if self.buckets[index] is None:
+            self.buckets[index] = []
+        for i, (existing_key, existing_value) in enumerate(self.buckets[index]):
+            if existing_key == key:
+                self.buckets[index][i] = (key, value)
                 return
-            cur = cur.next
-        cur.next = ListNode(key, value)
-
+        self.buckets[index].append((key, value))
     def get(self, key: int) -> int:
-        cur = self.map[self.hash(key)].next
-        while cur:
-            if cur.key == key:
-                return cur.val
-            cur = cur.next
+        index = key % self.size
+        if self.buckets[index] is None:
+            return -1
+        for existing_key, existing_value in self.buckets[index]:
+            if existing_key == key:
+                return existing_value
         return -1
-        
     def remove(self, key: int) -> None:
-        cur = self.map[self.hash(key)]
-        while cur and cur.next:
-            if cur.next.key == key:
-                cur.next = cur.next.next
+        index = key % self.size
+        if self.buckets[index] is None:
+            return
+        for i, (existing_key, existing_value) in enumerate(self.buckets[index]):
+            if existing_key == key:
+                del self.buckets[index][i]
                 return
-            cur = cur.next
